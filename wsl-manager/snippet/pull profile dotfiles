@@ -5,10 +5,13 @@ sudo apt install -y wget || true
 
 if [ $(id -u) -eq 0 ]
 then
+
+    # display message
     echo
     echo "This should not be run as the root user."
     echo "Set up a normal user account first."
     echo
+
 else
 
     # pull profile config
