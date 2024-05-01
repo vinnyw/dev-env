@@ -1,7 +1,10 @@
 # name: setup local git environment
 
-#install
+# install
 sudo apt -y install git 
+
+# remove config
+rm -vf ~/.gitconfig 2>/dev/null
 
 # basic setup
 git config --global user.name "Vinny Wadding"
