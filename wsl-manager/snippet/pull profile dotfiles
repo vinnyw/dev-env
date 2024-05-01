@@ -5,20 +5,19 @@ sudo apt install -y wget || true
 
 if [ $(id -u) -eq 0 ]
 then
-    echo " don't run as root"
+    echo
+    echo "This should not be run as the root user."
+    echo "Set up a normal user account first."
+    echo
 else
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.bash_aliases -O /home/${USER}/.bash_aliases && chmod -v 0640 /home/${USER}/.bash_aliases
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.bash_logout -O /home/${USER}/.bash_logout && chmod -v 0640 /home/${USER}/.bash_logout
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.bashrc -O /home/${USER}/.bashrc && chmod -v 0640 /home/${USER}/.bashrc
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.cloud-warnings.skip -O /home/${USER}/.cloud-warnings.skip && chmod -v 0640 /home/${USER}/.cloud-warnings.skip
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.gitconfig -O /home/${USER}/.gitconfig && chmod -v 0640 /home/${USER}/.gitconfig
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.hushlogin -O /home/${USER}/.hushlogin && chmod -v 0640 /home/${USER}/.hushlogin
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.motd_shown -O /home/${USER}/.motd_shown && chmod -v 0640 /home/${USER}/.motd_shown
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.profile -O /home/${USER}/.profile && chmod -v 0640 /home/${USER}/.profile
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.sudo_as_admin_successful -O /home/${USER}/.sudo_as_admin_successful && chmod -v 0640 /home/${USER}/.sudo_as_admin_successf
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.viminfo -O /home/${USER}/.viminfo && chmod -v 0640 /home/${USER}/.viminfo
-    wget https://raw.githubusercontent.com/vinnyw/dotfiles/main/.vimrc -O /home/${USER}/.vimrc &&  chmod -v 0640 /home/${USER}/.vimrc
-    
+
+    # pull profile config
+    for DOTFILE in .bash_aliases .bash_logout .bashrc .cloud-warnings.skip .hushlogin .motd_shown .profile .sudo_as_admin_successful .vimrc;
+    do
+        rm -vf /home/${USER}/\${DOTFILE} 2>/dev/null
+        wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/dotfile/\${DOTFILE} -O /home/${USER}/\${DOTFILE} && chmod -v 0640 /home/${USER}/\${DOTFILE}
+    done
+
     # create local directories 
     mkdir -pv /home/${USER}/.ssh/ && chmod -Rv 0750 /home/${USER}/.ssh/
     mkdir -pv /home/${USER}/bin/ && chmod -Rv 0750 /home/${USER}/bin/
