@@ -1,0 +1,12 @@
+# name: setup sudo access
+
+# install
+sudo apt -y install sudo
+
+# configure
+echo
+echo '%sudo ALL=(ALL) NOPASSWD:ALL' | sudo -E tee /etc/sudoers.d/dev_env
+
+# verify
+echo
+sudo visudo -cf /etc/sudoers
