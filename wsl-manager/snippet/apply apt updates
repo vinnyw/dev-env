@@ -1,0 +1,6 @@
+# name: apply apt updates
+
+sudo apt clean -y
+sudo apt-get update
+sudo NEEDRESTART_MODE=a apt dist-upgrade -y
+sudo apt autoremove -y

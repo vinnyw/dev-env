@@ -1,0 +1,18 @@
+# name: setup local git environment
+
+#install
+sudo apt -y install git 
+
+# basic setup
+git config --global user.name "Vinny Wadding"
+git config --global user.name "vinny.wadding@umony.com"
+
+# always use linux  line endings
+git config --global core.eol = lf
+git config --global core.autocrlf true
+
+# credentials
+#git config --global credential.helper store
+
+# shortcuts 
+#git config --global alias.hist "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short"
