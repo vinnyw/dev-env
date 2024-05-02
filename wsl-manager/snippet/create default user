@@ -1,0 +1,44 @@
+# name: create default user 
+
+# install
+sudo apt -y install sudo
+
+# get input
+echo
+echo
+read -e -i "ubuntu" -p "Username:" UN
+
+if [ ! -z $(id \${UN,,}) ]; then
+    # add existing user to groups
+    sudo adduser --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev wheel,sudo \${UN,,}
+else
+    # crate new user
+    sudo useradd --create-home --shell $(which bash) --user-group --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev "\${UN,,:=ubuntu}"
+fi
+
+# get input
+PW="\$(read -sp Password: pw ; echo \${pw} | openssl passwd -1 -stdin)"
+echo
+
+# change user password
+sudo usermod --password "\${PW}" "\${UN,,}"
+echo "usermod: user '\${UN,,}' password updated"
+
+# set default user for wsl 
+echo
+sudo sed -i -e "/^\[user\]/,/^$/d" /etc/wsl.conf
+echo -e "[user]\ndefault = \${UN,,}\n" | sudo tee --append /etc/wsl.conf
+
+# display message
+echo
+echo
+echo "User: \${UN,,} => \$(id -u \${UN,,})"
+echo 
+echo "Run command on host:"
+echo
+echo "      LxRunOffline.exe su -n \${WSL_DISTRO_NAME} -v \$(id -u \${UN,,})"
+echo
+echo "or change the Windows Terminal profile start commmand to:"
+echo 
+echo "      C:\WINDOWS\system32\wsl.exe -d \${WSL_DISTRO_NAME} -u \${UN,,}"
+echo
