@@ -2,11 +2,17 @@
 # and leave all files detected as binary untouched.
 * text=auto
 
-# Never modify line endings of our bash scripts
+
+# Never modify line endings of scripts
 #*.sh -crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+*.{cmd,[cC][mM][dD]} text eol=crlf
+
 
 # Declare files that will always have CRLF line endings on checkout.
 #*.sln text eol=crlf
+ text=auto eol=lf
+
 
 # The above will handle all files NOT found below
 #
@@ -19,6 +25,7 @@
 *.properties    text
 *.txt           text
 *.xml           text
+
 
 # These files are binary and should be left untouched
 # (binary is macro for -text -diff)
