@@ -34,11 +34,11 @@ echo
 echo
 echo "User: \${UN,,} => \$(id -u \${UN,,})"
 echo 
-echo "Run command on host:"
+echo "Run command on \${HOSTNAME}:"
 echo
 echo "      LxRunOffline.exe su -n \${WSL_DISTRO_NAME} -v \$(id -u \${UN,,})"
 echo
-echo "or change the Windows Terminal profile start commmand to:"
+echo "or change the Windows Terminal profile commmand to:"
 echo 
 echo "      C:\WINDOWS\system32\wsl.exe -d \${WSL_DISTRO_NAME} -u \${UN,,}"
 echo
