@@ -8,7 +8,7 @@ echo
 echo
 read -e -i "ubuntu" -p "Username:" UN
 
-if [ ! -z $(id \${UN,,}) ]; then
+if [ ! -z \$(id \${UN,,}) ]; then
     # add existing user to groups
     sudo adduser --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev wheel,sudo \${UN,,}
 else

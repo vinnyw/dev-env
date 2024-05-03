@@ -1,0 +1,14 @@
+# name: set instance hostname
+
+# get current hostname
+HN="\$(cat /etc/hostname)"
+
+# get input
+echo
+echo
+read -e -i "\${HN}" -p "Hostname:" HN
+echo
+echo
+
+# set hostname 
+sudo hostnamectl set-hostname "\${HN}"
