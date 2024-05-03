@@ -1,14 +1,38 @@
 # name: set instance hostname
 
 # get current hostname
-HN="\$(cat /etc/hostname)"
+ON="\$(cat /etc/hostname)"
+NN="\$(cat /etc/hostname)"
 
 # get input
 echo
-echo
-read -e -i "\${HN}" -p "Hostname:" HN
+read -e -i "\${ON}" -p "Hostname: " NN
 echo
 echo
 
-# set hostname 
-sudo hostnamectl set-hostname "\${HN}"
+# update hostfile 
+sudo sed -i "s/\${ON}/\${NN}/g" /etc/hosts
+
+# systemd?
+systemd-notify --booted
+if [ \$? -eq 0 ]; then
+    sudo hostnamectl set-hostname "\${NN}"
+else
+    sudo hostname "\${NN}"
+    sudo sed -i "s/\${ON}/\${NN}/g" /etc/hostname
+fi
+
+# set wsl name
+if grep -q 'hostname' /etc/wsl.conf; then
+    # is already defined
+    sudo sed -i "s/hostname = .*/hostname = \${NN}/g" /etc/wsl.conf
+else
+    # its new
+    echo "" | sudo tee -a /etc/wsl.conf > /dev/null
+    echo "[network]" | sudo tee -a /etc/wsl.conf > /dev/null
+    echo "hostname = \${NN}" | sudo tee -a /etc/wsl.conf > /dev/null
+fi
+
+# display confirmation 
+echo "Hostname updated from '\${ON}' to '\${NN}'"
+echo

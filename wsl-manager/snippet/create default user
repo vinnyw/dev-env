@@ -27,7 +27,9 @@ echo "usermod: user '\${UN,,}' password updated"
 # set default user for wsl 
 echo
 sudo sed -i -e "/^\[user\]/,/^$/d" /etc/wsl.conf
-echo -e "[user]\ndefault = \${UN,,}\n" | sudo tee --append /etc/wsl.conf
+echo "" | sudo tee -a /etc/wsl.conf > /dev/null
+echo "[user]" | sudo tee -a /etc/wsl.conf > /dev/null
+echo "default = \${UN,,}" | sudo tee -a /etc/wsl.conf > /dev/null
 
 # display message
 echo
