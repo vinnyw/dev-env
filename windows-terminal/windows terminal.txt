@@ -1,0 +1,52 @@
+install from 
+
+https://www.microsoft.com/store/productId/9N0DX20HK701
+
+
+
+shell:fonts
+
+
+copy fonts into this folder 
+
+
+%LOCALAPPDATA%\packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState
+
+copy icons to this folder 
+
+
+
+start the termonal, open the settings (CTRL+,)
+
+Set the GUID of the "defaultProfile" to match the GUID of the profule you want to
+automatically launch.   The default is to launch Windows Powershell.
+
+ "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+
+
+
+paste under  // Put settings here that you want to apply to all profiles.
+            "startingDirectory": "%USERPROFILE%",
+            "padding": "3, 3, 3, 3",
+            "historySize": 9001,
+            "snapOnInput": true,
+            "fontSize": 11
+
+
+append to profile for power shell (dont forget the trailing coma at the end of the previous line)
+
+                "commandline": "powershell.exe",
+                //"icon": "ms-appdata:///roaming/powershell.png",
+                "colorScheme": "Powershell",
+                "fontFace": "Consolas",
+
+command cmd.exe profile. 
+
+then ubuntu + ubuntu named (if multiple)
+
+
+"Azure Cloud Shell"
+
+   "hidden": true,
+
+
