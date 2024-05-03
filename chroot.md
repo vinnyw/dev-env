@@ -63,21 +63,28 @@ Download the bootstrap file system
 
 
 `export DEBOOTSTRAP_PROXY="http://localhost:3142/"
+
 export http_proxy="http://localhost:3142"
+
 export ftp_proxy="http://localhost:3142"`
 
 
 
-`sudo -E debootstrap \
---arch=amd64 \
---variant=minbase \
---components=main,universe,restricted,multiverse \
---include=ubuntu-minimal,build-essential,git \
-focal \
-/chroot/focal-amd64/ \
-http://archive.ubuntu.com/ubuntu/ `
+`sudo -E debootstrap \`
 
+`--arch=amd64 \`
 
+`--variant=minbase \`
+
+`--components=main,universe,restricted,multiverse \`
+
+`--include=ubuntu-minimal,build-essential,git \`
+
+`focal \`
+
+`/chroot/focal-amd64/ \`
+
+`http://archive.ubuntu.com/ubuntu/ `
 
 
 
