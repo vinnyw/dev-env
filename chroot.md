@@ -77,8 +77,6 @@ export ftp_proxy="http://localhost:3142"
 
 Build the bootstrap file system.  It must be run using with the "-E" parameter to make sure that the proxy variables are passed correctly.  This is not required if it is being run from a script.
 
-
-
 ```bash
 sudo -E debootstrap \
 --arch=amd64 \
@@ -88,25 +86,23 @@ focal \
 /chroot/focal-amd64/
 ```
 
-
-
 The required file should be download and installed in the correct location.
-
-
 
 ## Post-Build tasks
 
 
 
+add proxy settings to envitoment of chroot 
+
+
+
+install additional pacakges like git, vim
 
 
 
 
 
-
-sudo apt-get --no-install-recommends --no-install-suggests install software-properties-common
-
-
+sudo apt-get -y --no-install-recommends --no-install-suggests install software-properties-common
 
 ```bash
 sudo add-apt-repository -n -y \
@@ -123,17 +119,12 @@ sudo add-apt-repository -n -y \
     main restricted universe multiverse"
 ```
 
-
-
 ```bash
-apt-get clean;
-apt-get update;
-export RUNLEVEL=1
-apt-get -y dist-upgrade;
-unset RUNLEVEL
-apt-get -y autoremove 
+schroot -c focal-amd64 -u root -- <<EOF
+   apt-get clean;
+    apt-get update;
+    apt-get -y dist-upgrade;
+    apt-get -y purge
+apt-get -y --purge autoremove
+EOF
 ```
-
-
-
-
