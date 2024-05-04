@@ -16,21 +16,13 @@ sudo /etc/init.d/apt-cacher-ng status
 
 Replace any missing sylinks dropped in recent updates:
 
-
-
-
-
 # Bootstrap filesystem
 
 ## Install
 
-
-
 ```
 sudo apt-get install debbootstrap
 ```
-
-
 
 ## Prebuild tasks
 
@@ -39,8 +31,6 @@ Some recent updates have removed numerous links from the deployment package.  We
 ```
 cd /usr/share/debootstrap/scripts
 ```
-
-
 
 ```bash
 for DISTRO in artful bionic cosmic disco eoan focal groovy hardy hirsute impish intrepid jammy jaunty karmic kinetic lucid lunar mantic maverick natty noble oneiric precise quantal raring saucy utopic vivid wily xenial yakkety zesty
@@ -53,8 +43,6 @@ do
 done
 ```
 
-
-
 ```bash
 for DISTRO in bookworm bullseye buster jessie squeeze stretch trixie trusty wheezy
 do
@@ -65,8 +53,6 @@ do
     fi
 done
 ```
-
-
 
 ```bash
 for DISTRO in lenny
@@ -79,23 +65,15 @@ do
 done
 ```
 
-
-
 ## Building filesystem
 
-
-
 If you have set up the caching proxy, make sure you have the environment variables set before running the bootstrap.
-
-
 
 ```bash
 export DEBOOTSTRAP_PROXY="http://localhost:3142/"
 export http_proxy="http://localhost:3142"
 export ftp_proxy="http://localhost:3142"
 ```
-
-
 
 Build the bootstrap file system.  It must be run using with the "-E" parameter to make sure that the proxy variables are passed correctly.  This is not required if it is being run from a script.
 
@@ -105,17 +83,26 @@ Build the bootstrap file system.  It must be run using with the "-E" parameter t
 sudo -E debootstrap \
 --arch=amd64 \
 --variant=minbase \
---components=main,universe,restricted,multiverse \
---include=ubuntu-minimal,build-essential,git \
+--components=main,universe,multiverse,restricted \
+--include=build-essential,git \
 focal \
-/chroot/focal-amd64/ \
-http://archive.ubuntu.com/ubuntu/
+/chroot/focal-amd64/
 ```
 
 
 
-te
+The required file should be download and installed in the correct location.
+
+
+
+## Post-Build tasks
 
 
 
 
+
+
+
+
+
+sudo apt-get --no-install-recommends --no-install-suggests install software-properties-common
