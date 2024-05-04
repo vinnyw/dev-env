@@ -105,3 +105,35 @@ The required file should be download and installed in the correct location.
 
 
 sudo apt-get --no-install-recommends --no-install-suggests install software-properties-common
+
+
+
+```bash
+sudo add-apt-repository -n -y \
+    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc) \
+    main restricted universe multiverse"
+sudo add-apt-repository -n -y \
+    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-updates \
+    main restricted universe multiverse"
+sudo add-apt-repository -n -y 
+    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports \
+    main restricted universe multiverse"
+sudo add-apt-repository -n -y \
+    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-security \
+    main restricted universe multiverse"
+```
+
+
+
+```bash
+apt-get clean;
+apt-get update;
+export RUNLEVEL=1
+apt-get -y dist-upgrade;
+unset RUNLEVEL
+apt-get -y autoremove 
+```
+
+
+
+
