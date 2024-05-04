@@ -90,38 +90,51 @@ The required file should be download and installed in the correct location.
 
 ## Post-Build tasks
 
-
-
 add proxy settings to envitoment of chroot 
 
-
-
 install additional pacakges like git, vim
-
-
-
-
 
 sudo apt-get -y --no-install-recommends --no-install-suggests install software-properties-common
 
 ```bash
-sudo add-apt-repository -n -y \
-    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc) \
-    main restricted universe multiverse"
-sudo add-apt-repository -n -y \
-    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-updates \
-    main restricted universe multiverse"
-sudo add-apt-repository -n -y 
-    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports \
-    main restricted universe multiverse"
-sudo add-apt-repository -n -y \
-    "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-security \
-    main restricted universe multiverse"
+schroot -c focal-amd64 -u root -- <<EOF
+    apt-get -y \
+        --no-install-recommends \
+        --no-install-suggests \
+        install software-properties-common
+    add-apt-repository -n -y \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc) \
+        main restricted universe multiverse"
+    add-apt-repository -n -y \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-updates \
+        main restricted universe multiverse"
+    add-apt-repository -n -y 
+        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports \
+        main restricted universe multiverse"
+    add-apt-repository -n -y \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-security \
+        main restricted universe multiverse"
+EOF
 ```
+
+tejtlwejtwe
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
-   apt-get clean
+    apt-get update 
+    apt-get -y install vim
+
+
+EOF
+```
+
+
+
+,patch system
+
+```bash
+schroot -c focal-amd64 -u root -- <<EOF
+    apt-get clean
     apt-get update
     apt-get -y dist-upgrade
     apt-get -y purge
