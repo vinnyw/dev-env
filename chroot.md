@@ -93,15 +93,15 @@ The required file should be download and installed in the correct location.
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
 cat >> /etc/profile.d/05-environment.sh << SCRIPT
-        export http_proxy='http://localhost:3142'
-        export HTTP_PROXY='http://localhost:3142'
-        export https_proxy='http://localhost:3142'
-        export HTTPS_PROXY='http://localhost:3142'
-        export ftp_proxy='http://localhost:3142'
-        export FTP_PROXY='http://localhost:3142'
-        export no_proxy='localhost,127.0.0.1'
-        export NO_PROXY='localhost,127.0.0.1'
-    SCRIPT
+export http_proxy='http://localhost:3142'
+export HTTP_PROXY='http://localhost:3142'
+export https_proxy='http://localhost:3142'
+export HTTPS_PROXY='http://localhost:3142'
+export ftp_proxy='http://localhost:3142'
+export FTP_PROXY='http://localhost:3142'
+export no_proxy='localhost,127.0.0.1'
+export NO_PROXY='localhost,127.0.0.1'
+SCRIPT
 EOF
 ```
 
