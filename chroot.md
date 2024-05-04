@@ -108,7 +108,7 @@ schroot -c focal-amd64 -u root -- <<EOF
     add-apt-repository -n -y \
         "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-updates \
         main restricted universe multiverse"
-    add-apt-repository -n -y 
+    add-apt-repository -n -y \
         "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports \
         main restricted universe multiverse"
     add-apt-repository -n -y \
