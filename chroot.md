@@ -83,8 +83,7 @@ Build the bootstrap file system.  It must be run using with the "-E" parameter t
 sudo -E debootstrap \
 --arch=amd64 \
 --variant=minbase \
---components=main,universe,multiverse,restricted \
---include==ubuntu-minimal,build-essential,git \
+--include=ubuntu-minimal,build-essential,git \
 focal \
 /chroot/focal-amd64/
 ```
