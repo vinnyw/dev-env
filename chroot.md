@@ -20,11 +20,21 @@ Replace any missing sylinks dropped in recent updates:
 
 
 
-# Bootstrap
+# Bootstrap filesystem
+
+## Install
 
 
 
-Some recent updates have removed numerous links from the deployment package.  We can add those back before we build our envionment.
+```
+sudo apt-get install debbootstrap
+```
+
+
+
+## Prebuild tasks
+
+Some recent updates have removed numerous links from the deployment package.  We can add those back before we build our environment.
 
 ```
 cd /usr/share/debootstrap/scripts
@@ -71,11 +81,11 @@ done
 
 
 
-Download the bootstrap file system
+## Building filesystem
 
 
 
-Make sure you have the environment variables configured
+If you have set up the caching proxy, make sure you have the environment variables set before running the bootstrap.
 
 
 
