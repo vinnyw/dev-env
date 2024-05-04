@@ -121,10 +121,10 @@ sudo add-apt-repository -n -y \
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
-   apt-get clean;
-    apt-get update;
-    apt-get -y dist-upgrade;
+   apt-get clean
+    apt-get update
+    apt-get -y dist-upgrade
     apt-get -y purge
-apt-get -y --purge autoremove
+    apt-get -y --purge autoremove
 EOF
 ```
