@@ -122,7 +122,7 @@ tejtlwejtwe
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
     apt-get update 
-    apt-get -y install vim
+    apt-get -y install vim-tiny
 
 
 EOF
@@ -134,7 +134,7 @@ EOF
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
-    apt-get clean
+    apt-get clean
     apt-get update
     apt-get -y dist-upgrade
     apt-get -y purge
