@@ -172,7 +172,6 @@ If chroot is to be used for compilating and package, enable the source repositor
 ```bash
 sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
 sudo apt update
-EOF
 ```
 
 If
