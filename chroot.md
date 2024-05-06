@@ -88,6 +88,12 @@ export ftp_proxy="http://localhost:3142"
 
 Build the bootstrap file system.  It must be run using with the "-E" parameter to make sure that the proxy variables are passed correctly.  This is not required if it is being run from a script.
 
+
+
+```bash
+mkdir -pv /chroot/
+```
+
 ```bash
 sudo -E debootstrap \
 --arch=amd64 \
