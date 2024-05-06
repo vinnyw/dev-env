@@ -152,43 +152,39 @@ schroot -c focal-amd64 -u root -- <<EOF
         --no-install-recommends \
         --no-install-suggests \
         install software-properties-common 2>/dev/null
-EOF
-```
-
-```bash
-schroot -c focal-amd64 -u root -- <<EOF
-	echo '' > /etc/apt/sources.list
-	add-apt-repository --no-update --yes \
-		"deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc) \
-		main restricted universe multiverse" 2>/dev/null
-	add-apt-repository --no-update --yes \
-		"deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-updates \
-		main restricted universe multiverse" 2>/dev/null
-	add-apt-repository --no-update --yes \
-		"deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-backports \
-		main restricted universe multiverse" 2>/dev/null
-	add-apt-repository --no-update --yes \
-		"deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
-		main restricted universe multiverse" 2>/dev/null
-	echo
-	cat /etc/apt/sources.list
-    echo
-	apt-get update
-EOF
-```
-
-If chroot is to be used for compilating and package, enable the source repositories as well 
-
-```bash
-schroot -c focal-amd64 -u root -- <<EOF
-	sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+    echo '' > /etc/apt/sources.list
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc) \
+        main restricted universe multiverse" 2>/dev/null
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-updates \
+        main restricted universe multiverse" 2>/dev/null
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-backports \
+        main restricted universe multiverse" 2>/dev/null
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
+        main restricted universe multiverse" 2>/dev/null
     echo
     cat /etc/apt/sources.list
     echo
-	sudo apt update
+    apt-get update
 EOF
 ```
 
+If this chroot is to be used for compiling and packaging then enable the source repositories is recomended
+
+```bash
+schroot -c focal-amd64 -u root -- <<EOF
+    sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+    echo
+    cat /etc/apt/sources.list
+    echo
+    sudo apt update
+EOF
+```
+
+Install any missing or required packages
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
@@ -198,7 +194,7 @@ schroot -c focal-amd64 -u root -- <<EOF
 EOF
 ```
 
-,patch system
+Bring the system up to the latest patch level
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
@@ -209,3 +205,5 @@ schroot -c focal-amd64 -u root -- <<EOF
     apt-get -y --purge autoremove
 EOF
 ```
+
+More stuff goes here....
