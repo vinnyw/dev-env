@@ -91,7 +91,7 @@ Build the bootstrap file system.  It must be run using with the "-E" parameter t
 
 
 ```bash
-mkdir -pv /chroot/
+sudo mkdir -pv /chroot/
 ```
 
 ```bash
@@ -103,7 +103,7 @@ focal \
 /chroot/focal-amd64/
 ```
 
-The required file should be download and installed in the correct location.
+The required files should be download and installed in the correct location.
 
 ## Post-Build tasks
 
