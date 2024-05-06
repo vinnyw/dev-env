@@ -96,14 +96,51 @@ sudo mkdir -pv /chroot/
 
 ```bash
 sudo -E debootstrap \
---arch=amd64 \
---variant=minbase \
---include=ubuntu-minimal,build-essential,git \
-focal \
-/chroot/focal-amd64/
+    --arch=amd64 \
+    --variant=minbase \
+    --include=ubuntu-minimal,build-essential,git \
+    focal \
+    /chroot/focal-amd64/
 ```
 
 The required files should be download and installed in the correct location.
+
+
+
+# ## chroot access
+
+
+
+```bash
+sudo apt-get -y install apt-cacher-ng
+```
+
+
+
+```bash
+sudo vi /etc/schroot/chroot.d/focal-amd64.conf
+```
+
+
+
+```bash
+[focal-amd64]
+aliases=focal64
+description=Ubuntu Focal (20.04)
+profile=default
+type=directory
+directory=/chroot/focal-amd64
+message-verbosity=normal
+users=ubuntu
+groups=adm
+root-users=ubuntu
+root-groups=adm
+personality=linux
+preserve-environment=false
+#command-prefix=eatmydata
+```
+
+
 
 ## Post-Build tasks
 
