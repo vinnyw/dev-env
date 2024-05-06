@@ -8,6 +8,17 @@ Install the caching proxy
 sudo apt-get -y install apt-cacher-ng
 ```
 
+Add an override for configuration
+
+```bash
+sudo cat >> /etc/apt-cacher-ng/zzz_override.conf << CONFIG
+Port:3142
+BindAddress: 127.0.0.1
+ExThreshold: 4
+PassThroughPattern: .*
+CONFIG  
+```
+
 Enable the proxy
 
 ```bash
@@ -127,8 +138,6 @@ preserve-environment=false
 ```
 
 ## Post-Build tasks
-
-
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
