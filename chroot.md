@@ -58,7 +58,7 @@ done
 for DISTRO in bookworm bullseye buster jessie squeeze stretch trixie trusty wheezy
 do
     if [ ! -L ${DISTRO} ]; then
-        sudo ln -v -s sid {DISTRO}
+        sudo ln -v -s sid ${DISTRO}
     else
         echo "'${DISTRO}' already exists"
     fi
