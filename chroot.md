@@ -97,9 +97,13 @@ The required files should be download and installed in the correct location.
 
 # ## chroot access
 
+Install the schroot command to help manage access to the bootstrapped environment 
+
 ```bash
 sudo apt-get -y install schroot
 ```
+
+Create a configuration file for the new environment
 
 ```bash
 sudo vi /etc/schroot/chroot.d/focal-amd64.conf
@@ -123,6 +127,8 @@ preserve-environment=false
 ```
 
 ## Post-Build tasks
+
+
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
