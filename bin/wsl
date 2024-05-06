@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function_shutdown () {
+    cmd.exe /c "wsl.exe --terminate ${WSL_DISTRO_NAME}" 2>/dev/null
+}
+
+
+
+PARAM="${1,,}"
+
+if [ -z ${PARAM} ]; then
+    echo "add paramater"
+fi
+
+case ${PARAM} in
+    restart|shutdown)
+        function_shutdown
+        shift
+        ;;
+    -*|--*)
+        echo "Unknown option $1"
+        exit 1
+        ;;
+    *)
+        POSITIONAL_ARGS+=("$1") # save positional arg
+        shift # past argument
+        ;;
+esac
