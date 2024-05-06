@@ -147,25 +147,29 @@ cand use lsb_release in this way, its it pics up the value form the host rather 
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
+	sudo apt update \
     apt-get -y \
         --no-install-recommends \
         --no-install-suggests \
-        install software-properties-common
+        install software-properties-common 2>/dev/null
+EOF
 ```
 
 ```bash
+schroot -c focal-amd64 -u root -- <<EOF
+	sudo apt update \
     add-apt-repository --no-update --yes \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc) \
-        main restricted universe multiverse"
+        main restricted universe multiverse" 2>/dev/null
     add-apt-repository --no-update --yes \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-updates \
-        main restricted universe multiverse"
+        main restricted universe multiverse" 2>/dev/null
     add-apt-repository --no-update --yes \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-backports \
-        main restricted universe multiverse"
+        main restricted universe multiverse" 2>/dev/null
     add-apt-repository --no-update --yes \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
-        main restricted universe multiverse" \
+        main restricted universe multiverse" 2>/dev/null
     apt-get update 
 EOF
 ```
