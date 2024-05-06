@@ -1,0 +1,8 @@
+#!/bin/bash
+[ ! dpkg -s ntpdate >/dev/null 2>&1 ]; sudo apt-get -qq install ntpdate
+echo -n "Current time: "
+date
+echo "Synching time from source..."
+sudo ntpdate time.windows.com
+echo -n "Time: "
+date

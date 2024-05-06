@@ -26,7 +26,7 @@ else
     mkdir -pv /home/${USER}/bin/ && chmod -Rv 0750 /home/${USER}/bin/
 
     # pull scripts config
-    for SCRIPT in wsl;
+    for SCRIPT in fixtime wsl;
     do
         rm -vf /home/${USER}/bin/\${SCRIPT} 2>/dev/null
         wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/bin/\${SCRIPT} -O /home/${USER}/bin/\${SCRIPT} && chmod -v 0750 /home/${USER}/bin/\${SCRIPT}
