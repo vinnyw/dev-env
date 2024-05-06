@@ -88,7 +88,7 @@ sudo mkdir -pv /chroot/
 sudo -E debootstrap \
 	--arch=amd64 \
     --variant=minbase \
-    --include=ubuntu-minimal,build-essential,git \
+    --include=ubuntu-minimal,build-essential,git \
     focal \
     /chroot/focal-amd64/
 ```
