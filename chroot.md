@@ -86,11 +86,11 @@ sudo mkdir -pv /chroot/
 
 ```bash
 sudo -E debootstrap \
-    --arch=amd64 \
-    --variant=minbase \
+	--arch=amd64 \
+    --variant=minbase \
     --include=ubuntu-minimal,build-essential,git \
-    focal \
-    /chroot/focal-amd64/
+    focal \
+    /chroot/focal-amd64/
 ```
 
 The required files should be download and installed in the correct location.
@@ -169,8 +169,6 @@ EOF
 
 If chroot is to be used for compilating and package, enable the source repositories as well 
 
-
-
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
     add-apt-repository --no-update --yes --enable-source \
@@ -190,8 +188,6 @@ EOF
 ```
 
 If
-
-
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
