@@ -89,8 +89,8 @@ sudo -E debootstrap \
    --arch=amd64 \
    --variant=minbase \
    --include=ubuntu-minimal,build-essential,git \
-    focal \
-    /chroot/focal-amd64/
+   focal \
+   /chroot/focal-amd64/
 ```
 
 The required files should be download and installed in the correct location.
