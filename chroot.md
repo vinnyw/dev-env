@@ -16,7 +16,7 @@ if [ -z ${WSL_DISTRO_NAME} ]; then
     sudo update-rc.d -f apt-cacher-ng enable
 else
     sudo sed -zi '/\[boot\]/!s/$/\n\[boot\]\n/' /etc/wsl.conf
-    sudo sed -zi '/\[boot\]/acommand=\"/etc/init.d/apt-cacher-ng restart;\"\n' /etc/wsl.conf
+    sudo sed -i '/\[boot\]/acommand=\"/etc/init.d/apt-cacher-ng restart;\"\n' /etc/wsl.
 fi
 ```
 
