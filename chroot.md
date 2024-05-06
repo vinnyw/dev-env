@@ -88,8 +88,6 @@ export ftp_proxy="http://localhost:3142"
 
 Build the bootstrap file system.  It must be run using with the "-E" parameter to make sure that the proxy variables are passed correctly.  This is not required if it is being run from a script.
 
-
-
 ```bash
 sudo mkdir -pv /chroot/
 ```
@@ -105,23 +103,15 @@ sudo -E debootstrap \
 
 The required files should be download and installed in the correct location.
 
-
-
 # ## chroot access
 
-
-
 ```bash
-sudo apt-get -y install apt-cacher-ng
+sudo apt-get -y install schroot
 ```
-
-
 
 ```bash
 sudo vi /etc/schroot/chroot.d/focal-amd64.conf
 ```
-
-
 
 ```bash
 [focal-amd64]
@@ -139,8 +129,6 @@ personality=linux
 preserve-environment=false
 #command-prefix=eatmydata
 ```
-
-
 
 ## Post-Build tasks
 
@@ -167,10 +155,6 @@ cand use lsb_release in this way, its it pics up the value form the host rather 
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
-    apt-get -y \
-        --no-install-recommends \
-        --no-install-suggests \
-        install software-properties-common
     apt-get -y \
         --no-install-recommends \
         --no-install-suggests \
