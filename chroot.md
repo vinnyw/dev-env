@@ -177,11 +177,12 @@ EOF
 If chroot is to be used for compilating and package, enable the source repositories as well 
 
 ```bash
-sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
-sudo apt update
+schroot -c focal-amd64 -u root -- <<EOF
+	sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+	sudo apt update
+EOF
 ```
 
-If
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
