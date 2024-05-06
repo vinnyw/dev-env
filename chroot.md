@@ -31,7 +31,7 @@ sudo /etc/init.d/apt-cacher-ng status
 
 ## Install
 
-```
+```bash
 sudo apt-get install debbootstrap
 ```
 
@@ -39,7 +39,7 @@ sudo apt-get install debbootstrap
 
 Some recent updates have removed numerous links from the deployment package.  We can add those back before we build our environment.
 
-```
+```bash
 cd /usr/share/debootstrap/scripts
 ```
 
