@@ -180,7 +180,7 @@ schroot -c focal-amd64 -u root -- <<EOF
     echo
     cat /etc/apt/sources.list
     echo
-	apt-get update
+    apt-get update
 EOF
 ```
 
