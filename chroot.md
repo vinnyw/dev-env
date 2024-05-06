@@ -170,7 +170,8 @@ schroot -c focal-amd64 -u root -- <<EOF
         main restricted universe multiverse"
     add-apt-repository --no-update --yes \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
-        main restricted universe multiverse"
+        main restricted universe multiverse" \
+    apt-get update 
 EOF
 ```
 
@@ -191,7 +192,8 @@ schroot -c focal-amd64 -u root -- <<EOF
         main restricted universe multiverse"
     add-apt-repository --no-update --yes --enable-source \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
-        main restricted universe multiverse"
+        main restricted universe multiverse" \
+    apt-get update 
 EOF
 ```
 
