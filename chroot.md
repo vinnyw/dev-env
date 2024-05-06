@@ -5,6 +5,7 @@ Schroot Setup
 Install the caching proxy
 
 ```bash
+export DEBIAN_FRONTEND=noninteractive
 sudo apt-get -yes --assume-yes install apt-cacher-ng
 ```
 
