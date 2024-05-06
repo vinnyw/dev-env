@@ -5,7 +5,7 @@ Schroot Setup
 Install the caching proxy
 
 ```bash
-sudo apt-get -y install apt-cacher-ng
+sudo apt-get -yes --assume-yes install apt-cacher-ng
 ```
 
 Enable the proxy
@@ -32,7 +32,7 @@ sudo /etc/init.d/apt-cacher-ng status
 ## Install
 
 ```bash
-sudo apt-get install debbootstrap
+sudo apt-get install debootstrap
 ```
 
 ## Prebuild tasks
