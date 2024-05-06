@@ -13,7 +13,7 @@ if [ -z ${PARAM} ]; then
 fi
 
 case ${PARAM} in
-    restart|shutdown)
+    restart|shutdown|off)
         function_shutdown
         shift
         ;;
