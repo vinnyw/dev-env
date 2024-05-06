@@ -170,7 +170,9 @@ schroot -c focal-amd64 -u root -- <<EOF
 	add-apt-repository --no-update --yes \
 		"deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
 		main restricted universe multiverse" 2>/dev/null
+	echo
 	cat /etc/apt/sources.list
+    echo
 	apt-get update
 EOF
 ```
@@ -180,6 +182,7 @@ If chroot is to be used for compilating and package, enable the source repositor
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
 	sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+    echo
     cat /etc/apt/sources.list
 	sudo apt update
 EOF
