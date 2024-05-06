@@ -147,7 +147,7 @@ cand use lsb_release in this way, its it pics up the value form the host rather 
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
-	sudo apt update \
+	sudo apt update
     apt-get -y \
         --no-install-recommends \
         --no-install-suggests \
