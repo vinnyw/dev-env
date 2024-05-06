@@ -176,11 +176,11 @@ If this chroot is to be used for compiling and packaging then enable the source 
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
-    sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+    sed -i '/deb-src/s/^# //' /etc/apt/sources.list
     echo
     cat /etc/apt/sources.list
     echo
-    sudo apt update
+	apt-get update
 EOF
 ```
 
