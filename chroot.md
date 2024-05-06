@@ -41,9 +41,6 @@ Some recent updates have removed numerous links from the deployment package.  We
 
 ```bash
 cd /usr/share/debootstrap/scripts
-```
-
-```bash
 for DISTRO in artful bionic cosmic disco eoan focal groovy hardy hirsute impish intrepid jammy jaunty karmic kinetic lucid lunar mantic maverick natty noble oneiric precise quantal raring saucy utopic vivid wily xenial yakkety zesty
 do
     if [ ! -L ${DISTRO} ]; then
@@ -52,9 +49,6 @@ do
         echo "'${DISTRO}' already exists"
     fi
 done
-```
-
-```bash
 for DISTRO in bookworm bullseye buster jessie squeeze stretch trixie trusty wheezy
 do
     if [ ! -L ${DISTRO} ]; then
@@ -63,9 +57,6 @@ do
         echo "'${DISTRO}' already exists"
     fi
 done
-```
-
-```bash
 for DISTRO in lenny
 do
     if [ ! -L ${DISTRO} ]; then
@@ -74,6 +65,7 @@ do
         echo "'${DISTRO}' already exists"
     fi
 done
+cd ~
 ```
 
 ## Building filesystem
