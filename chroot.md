@@ -151,6 +151,9 @@ schroot -c focal-amd64 -u root -- <<EOF
         --no-install-recommends \
         --no-install-suggests \
         install software-properties-common
+```
+
+```bash
     add-apt-repository --no-update --yes \
         "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc) \
         main restricted universe multiverse"
