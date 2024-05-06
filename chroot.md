@@ -2,19 +2,30 @@ Schroot Setup
 
 ## Package caching (optional)
 
-sudo apt-get install apt-cacher-ng
+Install the caching proxy
 
-Enable and start the proxy service
+```bash
+sudo apt-get -y install apt-cacher-ng
+```
 
-sudo update-rc.d -f apt-cacher-ng defaults
+Enable the proxy
 
-sudo update-rc.d -f apt-cacher-ng enable
+```bash
+if [ -z ${WSL_DISTRO_NAME} ]; then
+    sudo update-rc.d -f apt-cacher-ng defaults
+    sudo update-rc.d -f apt-cacher-ng enable
+else
+    sudo sed -zi '/\[boot\]/!s/$/\n\[boot\]\n/' /etc/wsl.conf
+    sudo sed -zi '/\[boot\]/acommand=\"/etc/init.d/apt-cacher-ng restart;\"\n' /etc/wsl.conf
+fi
+```
 
+Start the daemon
+
+```bash
 sudo /etc/init.d/apt-cacher-ng start
-
 sudo /etc/init.d/apt-cacher-ng status
-
-Replace any missing sylinks dropped in recent updates:
+```
 
 # Bootstrap filesystem
 
@@ -94,14 +105,14 @@ The required file should be download and installed in the correct location.
 schroot -c focal-amd64 -u root -- <<EOF
 if [ ! -f /etc/profile.d/05-environment.sh ]; then
 cat >> /etc/profile.d/05-environment.sh << SCRIPT
-	export http_proxy='http://localhost:3142'
-	export HTTP_PROXY='http://localhost:3142'
-	export https_proxy='http://localhost:3142'
-	export HTTPS_PROXY='http://localhost:3142'
-	export ftp_proxy='http://localhost:3142'
-	export FTP_PROXY='http://localhost:3142'
-	export no_proxy='localhost,127.0.0.1'
-	export NO_PROXY='localhost,127.0.0.1'
+    export http_proxy='http://localhost:3142'
+    export HTTP_PROXY='http://localhost:3142'
+    export https_proxy='http://localhost:3142'
+    export HTTPS_PROXY='http://localhost:3142'
+    export ftp_proxy='http://localhost:3142'
+    export FTP_PROXY='http://localhost:3142'
+    export no_proxy='localhost,127.0.0.1'
+    export NO_PROXY='localhost,127.0.0.1'
 SCRIPT
 fi
 EOF
@@ -109,29 +120,29 @@ EOF
 
 install additional pacakges like git, vim
 
-
-
-
-
-sudo apt-get -y --no-install-recommends --no-install-suggests install software-properties-common
+cand use lsb_release in this way, its it pics up the value form the host rather than the chroot 
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
+    apt-get -y \
+        --no-install-recommends \
+        --no-install-suggests \
+        install software-properties-common
     apt-get -y \
         --no-install-recommends \
         --no-install-suggests \
         install software-properties-common
     add-apt-repository -n -y \
-        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc) \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc) \
         main restricted universe multiverse"
     add-apt-repository -n -y \
-        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-updates \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-updates \
         main restricted universe multiverse"
     add-apt-repository -n -y \
-        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-backports \
         main restricted universe multiverse"
     add-apt-repository -n -y \
-        "deb http://gb.archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-security \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
         main restricted universe multiverse"
 EOF
 ```
@@ -142,8 +153,7 @@ tejtlwejtwe
 schroot -c focal-amd64 -u root -- <<EOF
     apt-get update 
     apt-get -y install vim-tiny
-
-
+    apt-get -y --fix-broken install
 EOF
 ```
 
@@ -153,7 +163,6 @@ EOF
 schroot -c focal-amd64 -u root -- <<EOF
     apt-get clean
     apt-get update
-    apt-get -y --fix-broken install
     apt-get -y dist-upgrade
     apt-get -y purge
     apt-get -y --purge autoremove
