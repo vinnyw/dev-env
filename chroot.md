@@ -11,7 +11,7 @@ sudo apt-get -y install apt-cacher-ng
 Add an override for configuration
 
 ```bash
-sudo tee /etc/apt-cacher-ng/zzz_override.conf  >/dev/null <<EOF
+sudo tee /etc/apt-cacher-ng/zz_override.conf  >/dev/null <<EOF
 Port:3142
 BindAddress: 127.0.0.1
 ExThreshold: 4
