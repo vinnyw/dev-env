@@ -170,6 +170,7 @@ schroot -c focal-amd64 -u root -- <<EOF
 	add-apt-repository --no-update --yes \
 		"deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
 		main restricted universe multiverse" 2>/dev/null
+	cat /etc/apt/sources.list
 	apt-get update
 EOF
 ```
