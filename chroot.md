@@ -14,7 +14,7 @@ Add an override for configuration
 sudo tee /etc/apt-cacher-ng/zz_override.conf  >/dev/null <<EOF
 Port:3142
 BindAddress: 127.0.0.1
-ExThreshold: 4
+ExThreshold: 7
 PassThroughPattern: .*
 EOF
 ```
