@@ -11,12 +11,12 @@ sudo apt-get -y install apt-cacher-ng
 Add an override for configuration
 
 ```bash
-sudo cat >> /etc/apt-cacher-ng/zzz_override.conf << CONFIG
+sudo tee /etc/apt-cacher-ng/zzz_override.conf  >/dev/null <<EOF
 Port:3142
 BindAddress: 127.0.0.1
 ExThreshold: 4
 PassThroughPattern: .*
-CONFIG  
+EOF
 ```
 
 Enable the proxy
@@ -156,9 +156,7 @@ fi
 EOF
 ```
 
-install additional pacakges like git, vim
-
-cand use lsb_release in this way, its it pics up the value form the host rather than the chroot 
+install additional packages like git, vim
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
