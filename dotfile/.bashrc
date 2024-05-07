@@ -116,6 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -x /usr/bin/terraform ]; 
+if [ -x /usr/bin/terraform ]; then
     complete -C /usr/bin/terraform terraform
 fi
