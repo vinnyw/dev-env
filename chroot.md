@@ -114,25 +114,20 @@ Install the schroot command to help manage access to the bootstrapped environmen
 sudo apt-get -y install schroot
 ```
 
-Copy an existing profile so we don't have to modify any of the default settings
+Copy an existing profile so we don't have to modify any of the default settings, and add  our sudoers profile into the chroot environment.
 
 ```bash
 sudo mkdir -pv /etc/schroot/custom/
 sudo cp -v /etc/schroot/default/* /etc/schroot/custom/
-```
-
-Copy our SUDO profile into the chroot environment
-
-```bash
 for SUDO in $(sudo visudo -c | grep "parsed OK" | cut -d ':' -f 1 | egrep -v "(sudoers|README)$"); do
-	echo ${SUDO} | sudo tee --append /etc/schroot/custom/copyfiles;
+    echo ${SUDO} | sudo tee --append /etc/schroot/custom/copyfiles;
 done
 ```
 
 Create a configuration file for accessing and managing the new chroot environment.  Ensure that profile is set to the name "custom" so that it loads the files we added above.
 
 ```bash
-sudo te /etc/schroot/chroot.d/focal-amd64.conf >/dev/null <<EOF
+sudo tee /etc/schroot/chroot.d/focal-amd64.conf >/dev/null <<EOF
 [focal-amd64]
 description=Ubuntu Focal (20.04)
 type=directory
