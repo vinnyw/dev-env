@@ -125,7 +125,7 @@ Copy our SUDO profile into the chroot environment
 
 ```bash
 for SUDO in $(sudo visudo -c | grep "parsed OK" | cut -d ':' -f 1 | egrep -v "(sudoers|README)$"); do
-echo ${SUDO} | sudo tee --append /etc/schroot/custom/copyfiles;
+	echo ${SUDO} | sudo tee --append /etc/schroot/custom/copyfiles;
 done
 ```
 
