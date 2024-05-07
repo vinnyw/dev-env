@@ -115,3 +115,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+if [ -x /usr/bin/terraform ]; 
+    complete -C /usr/bin/terraform terraform
+fi
