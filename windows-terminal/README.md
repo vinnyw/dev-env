@@ -32,6 +32,7 @@ Colur scheme: "Ubuntu-console"
 Font Face: Ubuntu Mono
 Font Size: 13
 Line Height: 1.3
+Automatically adjust lightness of indistinguishable test: Alwways
 Intense text style: None
 
 

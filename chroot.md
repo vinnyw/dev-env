@@ -106,7 +106,7 @@ sudo -E debootstrap \
 
 The required files should be download and installed in the correct location.
 
-# ## chroot access
+# chroot access
 
 Install the schroot command to help manage access to the bootstrapped environment 
 
@@ -114,7 +114,23 @@ Install the schroot command to help manage access to the bootstrapped environmen
 sudo apt-get -y install schroot
 ```
 
-Create a configuration file for the new environment
+Copy an existing profile so we don't have to modify any of the default settings
+
+```bash
+sudo mkdir -pv /etc/schroot/custom/
+sudo cp -v /etc/schroot/default/* /etc/schroot/custom/
+```
+
+Copy our SUDO profile into the chroot environment
+
+```bash
+for SUDO in $(sudo visudo -c | grep "parsed OK" | cut -d ':' -f 1 | egrep -v "(sudoers|README)$"); do
+	echo ${SUDO} | sudo tee --append /etc/schroot/custom/copyfiles;
+done
+
+```
+
+Create a configuration file for accessing and managing the new chroot environment.  Ensure that profile is set to the name "custom" so that it loads the files we added above.
 
 ```bash
 sudo te /etc/schroot/chroot.d/focal-amd64.conf >/dev/null <<EOF
@@ -126,14 +142,13 @@ users=${USER}
 groups=$(groups | tr ' ' '\n' | egrep -v "(${USER}|cdrom|dip|lxd)" | tr '\n' ',' | sed 's/,$//g')
 root-users=${USER}
 root-groups=$(groups | tr ' ' '\n' | egrep -v "(${USER}|cdrom|dip|lxd)" | tr '\n' ',' | sed 's/,$//g')
-profile=default
+profile=custom
 personality=linux
 message-verbosity=normal
 preserve-environment=false
 #command-prefix=eatmydata
 EOF
 sudo vi /etc/schroot/chroot.d/focal-amd64.conf
-
 ```
 
 ## Post-Build tasks
