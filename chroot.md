@@ -117,24 +117,23 @@ sudo apt-get -y install schroot
 Create a configuration file for the new environment
 
 ```bash
-sudo vi /etc/schroot/chroot.d/focal-amd64.conf
-```
-
-```bash
+sudo te /etc/schroot/chroot.d/focal-amd64.conf >/dev/null <<EOF
 [focal-amd64]
-aliases=focal64
 description=Ubuntu Focal (20.04)
-profile=default
 type=directory
 directory=/chroot/focal-amd64
-message-verbosity=normal
-users=ubuntu
-groups=adm
-root-users=ubuntu
-root-groups=adm
+users=${USER}
+groups=$(groups | tr ' ' '\n' | egrep -v "(${USER}|cdrom|dip|lxd)" | tr '\n' ',' | sed 's/,$//g')
+root-users=${USER}
+root-groups=$(groups | tr ' ' '\n' | egrep -v "(${USER}|cdrom|dip|lxd)" | tr '\n' ',' | sed 's/,$//g')
+profile=default
 personality=linux
+message-verbosity=normal
 preserve-environment=false
 #command-prefix=eatmydata
+EOF
+sudo vi /etc/schroot/chroot.d/focal-amd64.conf
+
 ```
 
 ## Post-Build tasks
