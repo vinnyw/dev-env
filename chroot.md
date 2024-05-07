@@ -202,7 +202,7 @@ Install any missing or required packages
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
     apt-get update 
-    apt-get -y install vim-tiny
+    apt-get -y install vim ssh wget curl
     apt-get -y --fix-broken install
 EOF
 ```

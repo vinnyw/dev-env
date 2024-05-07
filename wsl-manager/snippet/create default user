@@ -6,11 +6,11 @@ sudo apt -y install sudo
 # get input
 echo
 echo
-read -e -i "ubuntu" -p "Username:" UN
+read -e -i "ubuntu" -p "Username: " UN
 
-if [ ! -z \$(id \${UN,,}) ]; then
+if [ ! -z \$(id -u \${UN,,}) ]; then
     # add existing user to groups
-    sudo adduser --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev wheel,sudo \${UN,,}
+    sudo usernod --append --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev wheel,sudo \${UN,,}
 else
     # crate new user
     sudo useradd --create-home --shell $(which bash) --user-group --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev "\${UN,,:=ubuntu}"
