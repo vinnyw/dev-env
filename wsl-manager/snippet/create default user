@@ -10,7 +10,7 @@ read -e -i "ubuntu" -p "Username: " UN
 
 if [ ! -z \$(id -u \${UN,,}) ]; then
     # add existing user to groups
-    sudo usernod --append --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev wheel,sudo \${UN,,}
+    sudo usermod --append --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev wheel,sudo \${UN,,}
 else
     # crate new user
     sudo useradd --create-home --shell $(which bash) --user-group --groups adm,dialout,cdrom,floppy,sudo,audio,dip,video,plugdev,netdev "\${UN,,:=ubuntu}"
