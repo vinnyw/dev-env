@@ -1,0 +1,136 @@
+#!/bin/bash
+
+[ "$(id -u)" = "0" ] && {
+    echo "Just run the script as yourself"
+    exit 1
+}
+
+[ -z ${1} ] && echo "build-chrrot {SUITE} {ARCH}" && exit
+SUITE=${1,,}
+[ ! -f /usr/share/debootstrap/scripts/${SUITE} ] && echo "Error: Distro ${SUITE} is unknown or not supported" && exit
+
+[ -z ${2} ] && ARCH="$(dpkg --print-architecture)" || ARCH="${2}"
+ARCH=${ARCH,,}
+
+/etc/init.d/apt-cacher-ng status >/dev/null
+if [ ${?} -ne 0 ]; then 
+    echo "Start apt-cacher-ng proxy before running"
+    echo 
+    exit 1
+fi  
+
+export DEBOOTSTRAP_PROXY="http://localhost:3142/"
+export http_proxy="http://localhost:3142"
+export ftp_proxy="http://localhost:3142"
+
+sudo mkdir -pv /chroot/
+
+if [ -d "/chroot/${SUITE}-${ARCH}/" ]; then
+    echo
+    echo "Chroot /chroot/${SUITE}-${ARCH}/ exists."  
+    while true; do
+        read -p "Do you wish delete and recreate? [yn]" yn
+        case $yn in
+            [Yy]* ) break;;
+            [Nn]* ) echo; echo "Halting"; echo; exit 1;;
+            * ) echo; echo "Please answer yes or no"; echo;;
+        esac
+    done
+fi
+
+if [ -d "/chroot/${SUITE}-${ARCH}/" ]; then
+    # add proper checking to ensure no active sessions in chroot
+    sudo rm -rvf /chroot/${SUITE}-${ARCH}/ 2>/dev/null
+fi
+
+sudo -E debootstrap \
+    --arch=${ARCH} \
+    --variant=minbase \
+    --include=ubuntu-minimal,build-essential,git \
+    ${SUITE} \
+    /chroot/${SUITE}-${ARCH}/
+
+
+sudo tee /etc/schroot/chroot.d/${SUITE}-{ARCH}.conf >/dev/null <<EOF
+[focal-amd64]
+description=Ubuntu ${SUITE^}
+type=directory
+directory=/chroot/${SUITE}-${ARCH}
+users=${USER}
+groups=$(groups | tr ' ' '\n' | egrep -v "(${USER}|cdrom|dip|lxd)" | tr '\n' ',' | sed 's/,$//g')
+root-users=${USER}
+root-groups=$(groups | tr ' ' '\n' | egrep -v "(${USER}|cdrom|dip|lxd)" | tr '\n' ',' | sed 's/,$//g')
+profile=custom
+personality=linux
+message-verbosity=normal
+preserve-environment=false
+EOF
+sudo vi /etc/schroot/chroot.d/${SUITE}-${ARCH}.conf
+
+
+
+schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+if [ ! -f /etc/profile.d/05-environment.sh ]; then
+cat >> /etc/profile.d/05-environment.sh << SCRIPT
+    export http_proxy='http://localhost:3142'
+    export HTTP_PROXY='http://localhost:3142'
+    export https_proxy='http://localhost:3142'
+    export HTTPS_PROXY='http://localhost:3142'
+    export ftp_proxy='http://localhost:3142'
+    export FTP_PROXY='http://localhost:3142'
+    export no_proxy='localhost,127.0.0.1'
+    export NO_PROXY='localhost,127.0.0.1'
+SCRIPT
+fi
+EOF
+
+schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+    sudo apt update
+    apt-get -y \
+        --no-install-recommends \
+        --no-install-suggests \
+        install software-properties-common 2>/dev/null
+    echo '' > /etc/apt/sources.list
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc) \
+        main restricted universe multiverse" 2>/dev/null
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-updates \
+        main restricted universe multiverse" 2>/dev/null
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-backports \
+        main restricted universe multiverse" 2>/dev/null
+    add-apt-repository --no-update --yes \
+        "deb http://gb.archive.ubuntu.com/ubuntu/ \$(lsb_release -sc)-security \
+        main restricted universe multiverse" 2>/dev/null
+    echo
+    cat /etc/apt/sources.list
+    echo
+    apt-get update
+EOF
+
+schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+    sed -i '/deb-src/s/^# //' /etc/apt/sources.list
+    echo
+    cat /etc/apt/sources.list
+    echo
+    apt-get update
+EOF
+
+schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+    apt-get update 
+    apt-get -y install vim ssh wget curl
+    apt-get -y --fix-broken install
+EOF
+
+schroot -c ${SUITE}-${ARCH} -u root -- <<EOF
+    apt-get clean
+    apt-get update
+    apt-get -y dist-upgrade
+    apt-get -y purge
+    apt-get -y --purge autoremove
+EOF
+
+schroot -c "${SUITE}-${ARCH}" -- <<EOF
+	lsb_release -a
+EOF
