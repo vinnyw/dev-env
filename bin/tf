@@ -5,26 +5,27 @@ export TF_CLI_ARGS_apply="-parallelism=50 -compact-warnings "
 
 unset PRECMD
 unset POSTCMD
-unset TF_LOG
-unset TF_LOG_PATH
+
 unset CMDFLAGS
+unset LOGF
+
+export TF_LOG=off
 
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
     --log)
-        # Discard any diagnostic output, errors, and interactive prompts.
-        #exec 2>~/terraform.log
-        export TF_LOG='WARN' 
-        export TF_LOG_PATH="${HOME}/terraform.log"
-        touch "${TF_LOG_PATH}"
+        TF_LOG=warn
         #DEBUG, INFO, WARN or ERROR
+        TF_LOG_PATH="${HOME}/terraform.log"
+        OUTPUT="| tee --append ${TF_LOG_PATH}"
         ;;
     --time)
-        PRECMD="$(which time) -f 'Runtime (h:m:s): %E\n' -- "
+        PRECMD="$(which time) -f 'Runtime (h:m:s): %E\n' --"
         ;;
     --auto)
-        CMDFLAGS="-detailed-exitcode -auto-approve -input=false "
+        CMDFLAGS="-detailed-exitcode -input=false"
+        # if mode apply add -auto-approve
         ;;
     *)
         break
@@ -34,5 +35,6 @@ while [ "$#" -gt 0 ]; do
 done
 
 # pass to terraform
-echo "Terraform mode: ${1^}"
-bash -c "${PRECMD} /usr/bin/terraform ${1} ${CMDFLAGS} "
+echo "Terraform => ${1^}"
+echo -n "  Logging => "; [ ! "${TF_LOG}" == "off" ] && echo "${TF_LOG_PATH} [${TF_LOG^^}]" || echo "None"
+bash -c -- "${PRECMD} /usr/bin/terraform ${1} ${CMDFLAGS} ${OUTPUT}"
