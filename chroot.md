@@ -165,10 +165,26 @@ fi
 EOF
 ```
 
+Ensure that the system locale, timezones and console encoding are set correctly
+
+```bash
+schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+    echo "Etc/UTC" > /etc/timezone
+    dpkg-reconfigure -f noninteractive tzdata
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+    sed -i -e 's/# nb_NO.UTF-8 UTF-8/nb_NO.UTF-8 UTF-8/' /etc/locale.gen
+    dpkg-reconfigure --frontend=noninteractive locales
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    locale-gen "en_US.UTF-8"
+EOF
+```
+
+
 install additional packages like git, vim
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
+    export DEBIAN_FRONTEND=noninteractive
     sudo apt update
     apt-get -y \
         --no-install-recommends \
@@ -219,10 +235,11 @@ EOF
 Bring the system up to the latest patch level
 
 ```bash
-schroot -c focal-amd64 -u root -- <<EOF
+schroot -c ${SUITE}-${ARCH} -u root -- <<EOF
+    export DEBIAN_FRONTEND=noninteractive
     apt-get clean
     apt-get update
-    apt-get -y dist-upgrade
+    apt-get -y -o Dpkg::Options::="--force-confnew" --force-yes -fuy dist-upgrade
     apt-get -y purge
     apt-get -y --purge autoremove
 EOF
