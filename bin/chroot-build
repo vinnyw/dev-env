@@ -1,23 +1,5 @@
 #!/bin/bash
 
-function box_out()
-{
-  local s=("$@") b w
-  for l in "${s[@]}"; do
-    ((w<${#l})) && { b="$l"; w="${#l}"; }
-  done
-  tput setaf 3
-  echo " -${b//?/-}-
-| ${b//?/ } |"
-  for l in "${s[@]}"; do
-    printf '| %s%*s%s |\n' "$(tput setaf 4)" "-$w" "$l" "$(tput setaf 3)"
-  done
-  echo "| ${b//?/ } |
- -${b//?/-}-"
-  tput sgr 0
-}
-
-
 [ "$(id -u)" = "0" ] && {
     echo "Just run the script as yourself"
     exit 1
@@ -61,6 +43,7 @@ if [ -d "/chroot/${SUITE}-${ARCH}/" ]; then
     sudo rm -rvf /chroot/${SUITE}-${ARCH}/ 2>/dev/null
 fi
 
+echo
 sudo -E debootstrap \
     --arch=${ARCH} \
     --variant=minbase \
@@ -68,7 +51,7 @@ sudo -E debootstrap \
     ${SUITE} \
     /chroot/${SUITE}-${ARCH}/
 
-
+echo
 sudo tee /etc/schroot/chroot.d/${SUITE}-${ARCH}.conf >/dev/null <<EOF
 [${SUITE}-${ARCH}]
 description=Ubuntu ${SUITE^}
@@ -85,8 +68,7 @@ preserve-environment=false
 EOF
 sudo vi /etc/schroot/chroot.d/${SUITE}-${ARCH}.conf
 
-
-
+echo
 schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
 if [ ! -f /etc/profile.d/05-environment.sh ]; then
 cat >> /etc/profile.d/05-environment.sh << SCRIPT
@@ -102,7 +84,20 @@ SCRIPT
 fi
 EOF
 
+echo
 schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+    echo "Etc/UTC" > /etc/timezone
+    dpkg-reconfigure -f noninteractive tzdata
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+    sed -i -e 's/# nb_NO.UTF-8 UTF-8/nb_NO.UTF-8 UTF-8/' /etc/locale.gen
+    dpkg-reconfigure --frontend=noninteractive locales
+    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    locale-gen "en_US.UTF-8"
+EOF
+
+echo
+schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+    export DEBIAN_FRONTEND=noninteractive
     sudo apt update
     apt-get -y \
         --no-install-recommends \
@@ -127,6 +122,7 @@ schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
     apt-get update
 EOF
 
+echo
 schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
     sed -i '/deb-src/s/^# //' /etc/apt/sources.list
     echo
@@ -135,20 +131,24 @@ schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
     apt-get update
 EOF
 
+echo
 schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
     apt-get update 
     apt-get -y install vim ssh wget curl
     apt-get -y --fix-broken install
 EOF
 
+echo
 schroot -c ${SUITE}-${ARCH} -u root -- <<EOF
+    export DEBIAN_FRONTEND=noninteractive
     apt-get clean
     apt-get update
-    apt-get -y dist-upgrade
+    apt-get -y -o Dpkg::Options::="--force-confnew" --force-yes -fuy dist-upgrade
     apt-get -y purge
     apt-get -y --purge autoremove
 EOF
 
-box_out <( schroot -c "${SUITE}-${ARCH}" -- <<EOF
-	lsb_release -a
-EOF)
+echo
+schroot -c "${SUITE}-${ARCH}" -- <<EOF
+    lsb_release -a
+EOF
