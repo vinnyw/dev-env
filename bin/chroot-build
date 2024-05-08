@@ -150,6 +150,8 @@ EOF
 
 echo
 schroot -c "${SUITE}-${ARCH}" -- <<EOF
-    lsb_release -a
+    echo
+    lsb_release --all 2>/dev/null
+    echo
 EOF
 echo
