@@ -238,7 +238,7 @@ schroot -c focal-amd64 -u root -- <<EOF
     export DEBIAN_FRONTEND=noninteractive
     apt-get clean
     apt-get update
-    apt-get -y -o Dpkg::Options::="--force-confnew" --force-yes -fuy dist-upgrade
+    apt-get -y -o Dpkg::Options::="--force-confnew" -fuy dist-upgrade
     apt-get -y purge
     apt-get -y --purge autoremove
 EOF
