@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+export TF_CLI_CONFIG_FILE="$HOME/.terraformrc"
+export TF_CLI_ARGS_plan="-parallelism=50 -compact-warnings -no-color"
+export TF_CLI_ARGS_apply="-parallelism=50 -compact-warnings "
+
+unset PRECMD
+unset POSTCMD
+unset TF_LOG
+unset TF_LOG_PATH
+unset CMDFLAGS
+
+
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+    --log)
+        # Discard any diagnostic output, errors, and interactive prompts.
+        #exec 2>~/terraform.log
+        export TF_LOG='WARN' 
+        export TF_LOG_PATH="${HOME}/terraform.log"
+        touch "${TF_LOG_PATH}"
+        #DEBUG, INFO, WARN or ERROR
+        ;;
+    --time)
+        PRECMD="$(which time) -f 'Runtime (h:m:s): %E\n' -- "
+        ;;
+    --auto)
+        CMDFLAGS="-detailed-exitcode -auto-approve -input=false "
+        ;;
+    *)
+        break
+        ;;
+    esac
+    shift
+done
+
+# pass to terraform
+echo "Terraform mode: ${1^}"
+bash -c "${PRECMD} /usr/bin/terraform ${1} ${CMDFLAGS} "
