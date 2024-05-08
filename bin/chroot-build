@@ -152,3 +152,4 @@ echo
 schroot -c "${SUITE}-${ARCH}" -- <<EOF
     lsb_release -a
 EOF
+echo
