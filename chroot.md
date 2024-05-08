@@ -165,10 +165,10 @@ fi
 EOF
 ```
 
-Ensure that the system locale, timezones and console encoding are set correctly
+Ensure that the system locale, time zones and console encoding are correctly set
 
 ```bash
-schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
+schroot -c focal-amd64 -u root -- <<EOF
     echo "Etc/UTC" > /etc/timezone
     dpkg-reconfigure -f noninteractive tzdata
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
@@ -179,8 +179,7 @@ schroot -c "${SUITE}-${ARCH}" -u root -- <<EOF
 EOF
 ```
 
-
-install additional packages like git, vim
+Enable standard repositories for this distribution
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
@@ -210,7 +209,7 @@ schroot -c focal-amd64 -u root -- <<EOF
 EOF
 ```
 
-If this chroot is to be used for compiling and packaging then enable the source repositories is recomended
+If this chroot is to be used for compiling and packaging then enable the source repositories is recommended
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
@@ -222,7 +221,7 @@ schroot -c focal-amd64 -u root -- <<EOF
 EOF
 ```
 
-Install any missing or required packages
+Install any missing, required or preferred packages.
 
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
@@ -232,10 +231,10 @@ schroot -c focal-amd64 -u root -- <<EOF
 EOF
 ```
 
-Bring the system up to the latest patch level
+Ensure the latest packages are installed.
 
 ```bash
-schroot -c ${SUITE}-${ARCH} -u root -- <<EOF
+schroot -c focal-amd64 -u root -- <<EOF
     export DEBIAN_FRONTEND=noninteractive
     apt-get clean
     apt-get update
