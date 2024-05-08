@@ -1,11 +1,29 @@
 #!/bin/bash
 
+function box_out()
+{
+  local s=("$@") b w
+  for l in "${s[@]}"; do
+    ((w<${#l})) && { b="$l"; w="${#l}"; }
+  done
+  tput setaf 3
+  echo " -${b//?/-}-
+| ${b//?/ } |"
+  for l in "${s[@]}"; do
+    printf '| %s%*s%s |\n' "$(tput setaf 4)" "-$w" "$l" "$(tput setaf 3)"
+  done
+  echo "| ${b//?/ } |
+ -${b//?/-}-"
+  tput sgr 0
+}
+
+
 [ "$(id -u)" = "0" ] && {
     echo "Just run the script as yourself"
     exit 1
 }
 
-[ -z ${1} ] && echo "build-chrrot {SUITE} {ARCH}" && exit
+[ -z ${1} ] && echo "build-chrrot [SUITE] [ARCH]" && exit
 SUITE=${1,,}
 [ ! -f /usr/share/debootstrap/scripts/${SUITE} ] && echo "Error: Distro ${SUITE} is unknown or not supported" && exit
 
@@ -51,8 +69,8 @@ sudo -E debootstrap \
     /chroot/${SUITE}-${ARCH}/
 
 
-sudo tee /etc/schroot/chroot.d/${SUITE}-{ARCH}.conf >/dev/null <<EOF
-[focal-amd64]
+sudo tee /etc/schroot/chroot.d/${SUITE}-${ARCH}.conf >/dev/null <<EOF
+[${SUITE}-${ARCH}]
 description=Ubuntu ${SUITE^}
 type=directory
 directory=/chroot/${SUITE}-${ARCH}
@@ -131,6 +149,6 @@ schroot -c ${SUITE}-${ARCH} -u root -- <<EOF
     apt-get -y --purge autoremove
 EOF
 
-schroot -c "${SUITE}-${ARCH}" -- <<EOF
+box_out <( schroot -c "${SUITE}-${ARCH}" -- <<EOF
 	lsb_release -a
-EOF
+EOF)
