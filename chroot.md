@@ -226,7 +226,7 @@ Install any missing, required or preferred packages.
 ```bash
 schroot -c focal-amd64 -u root -- <<EOF
     apt-get update 
-    apt-get -y install vim ssh wget curl
+    apt-get -y install vim ssh wget curl 2>/dev/null
     apt-get -y --fix-broken install
 EOF
 ```
@@ -238,7 +238,7 @@ schroot -c focal-amd64 -u root -- <<EOF
     export DEBIAN_FRONTEND=noninteractive
     apt-get clean
     apt-get update
-    apt-get -y -o Dpkg::Options::="--force-confnew" -fuy dist-upgrade
+    apt-get -y -o Dpkg::Options::="--force-confnew" -fuy dist-upgrade 2>/dev/null
     apt-get -y purge
     apt-get -y --purge autoremove
 EOF
