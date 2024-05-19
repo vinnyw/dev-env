@@ -4,3 +4,9 @@ sudo apt clean -y
 sudo apt-get update
 sudo NEEDRESTART_MODE=a apt dist-upgrade -y
 sudo apt autoremove -y
+
+# install missing tools
+sudo apt install bind9-dnsutils
+sudo apt install telnet-ssl
+sudo apt install net-tools
+
