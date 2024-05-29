@@ -15,7 +15,7 @@ then
 else
 
     # pull profile config
-    for DOTFILE in .bash_aliases .bash_logout .bashrc .cloud-warnings.skip .curlrc .hushlogin .motd_shown .profile .sudo_as_admin_successful .vimrc;
+    for DOTFILE in .bash_aliases .bash_logout .bashrc .cloud-warnings.skip .curlrc .hushlogin .inputrc .motd_shown .profile .sudo_as_admin_successful .vimrc;
     do
         rm -vf /home/${USER}/\${DOTFILE} 2>/dev/null
         wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/dotfile/\${DOTFILE} -O /home/${USER}/\${DOTFILE} && chmod -v 0640 /home/${USER}/\${DOTFILE}
