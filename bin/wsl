@@ -4,6 +4,9 @@ function_shutdown () {
     cmd.exe /c "wsl.exe --terminate ${WSL_DISTRO_NAME}" 2>/dev/null
 }
 
+function_cleanup () {
+    sudo rm -rvf /wsl* 2>/dev/null
+}
 
 
 PARAM="${1,,}"
@@ -15,6 +18,10 @@ fi
 case ${PARAM} in
     restart|shutdown|off)
         function_shutdown
+        shift
+        ;;
+    clean|cleanup)
+        function_cleanup
         shift
         ;;
     -*|--*)
