@@ -34,8 +34,8 @@ else
 
     for SCRIPT in codium;
     do
-        rm -vf /usr/local/bin/\${SCRIPT} 2>/dev/null
-        wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/bin/\${SCRIPT} -O /usr/local/bin/\${SCRIPT} && chmod -v 0750 /usr/local/bin/\${SCRIPT}
+        sudo rm -vf /usr/local/bin/\${SCRIPT} 2>/dev/null
+        sudo wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/bin/\${SCRIPT} -O /usr/local/bin/\${SCRIPT} && sudo chown -v root:root /usr/local/bin/\${SCRIPT} && sudo chmod -v 0750 /usr/local/bin/\${SCRIPT}
     done
 
 fi
