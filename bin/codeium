@@ -1,0 +1,4 @@
+#!/bin/sh
+"/mnt/c/Program Files/VSCodium/VSCodium.exe" "$@"
+
+

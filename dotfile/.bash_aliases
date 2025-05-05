@@ -38,3 +38,8 @@ if [ ! -z "$WSL_DISTRO_NAME" ]; then
     # trailing
     PS1+='\[\e[0m\]$\[\e[m\] '
 fi
+
+if [ ! -z "$WSL_DISTRO_NAME" ]; then    
+# some more ls aliases
+alias code="/usr/local/bin/codium"
+fi
