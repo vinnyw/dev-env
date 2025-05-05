@@ -32,4 +32,10 @@ else
         wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/bin/\${SCRIPT} -O /home/${USER}/bin/\${SCRIPT} && chmod -v 0750 /home/${USER}/bin/\${SCRIPT}
     done
 
+    for SCRIPT in codium;
+    do
+        rm -vf /usr/local/bin/\${SCRIPT} 2>/dev/null
+        wget --show-progress --no-verbose https://raw.githubusercontent.com/vinnyw/dev-env/main/bin/\${SCRIPT} -O /usr/local/bin/\${SCRIPT} && chmod -v 0750 /usr/local/bin/\${SCRIPT}
+    done
+
 fi
