@@ -1,4 +1,10 @@
-#!/bin/sh
-"/mnt/c/Program Files/VSCodium/VSCodium.exe" "$@"
+#!/usr/bin/env bash
+# Wrapper for VS Code with quiet logging
+# Usage: vcode [folder|file]
 
+# Ensure VS Code only logs warnings and errors
+# This sets it per launch, without touching your global settings.json
+exec nohup "/mnt/c/Program Files/VSCodium/VSCodium.exe" "${@}" \
+    --log warn \
+    >/dev/null 2>&1 &
 

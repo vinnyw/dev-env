@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# send profile setup to remote host
+#
+#set -x
+#set -e
+APPNAME=$(basename $0)
+
+# check passed params
+if [ -z "$1" ]; then
+	echo "usage: ${APPNAME} {host}"
+	exit 1
+fi
+
+######################################################################
+#
+#   ERROR CATCH
+#
+trap 'catch' ERR
+
+catch() {
+
+	# stop
+	exit 1
+
+}
+
+######################################################################
+#
+#   SYNC FILES
+#
+
+# bin
+[ -d ~/bin/ ] && ssh $1 -- mkdir -pv ./bin/
+
+# profile
+[ -f ~/.profile ] && scp ~/.profile $1:~
+
+# bash
+[ -f ~/.bash_logout ] && [ -f ~/.bashrc ] && [ -f ~/.bash_aliases ] && scp ~/.bash_logout ~/.bashrc ~/.bash_aliases ~/.dircolors $1:~
+
+# cloud-init
+[ -f ~/.cloud-warnings.skip ] && scp ~/.cloud-warnings.skip $1:~
+
+# status
+[ -f ~/.hushlogin ] && [ -f ~/.motd_shown ] && [ -f ~/.sudo_as_admin_successful ] && scp ~/.hushlogin ~/.motd_shown ~/.sudo_as_admin_successful $1:~
+
+# config
+[ -f ~/.vimrc ] && scp ~/.vimrc $1:~
+
+######################################################################
+#
+#   FINISH
+#
+
+# display message
+#echo
