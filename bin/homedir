@@ -37,7 +37,7 @@ catch() {
 [ -f ~/.profile ] && scp ~/.profile $1:~
 
 # bash
-[ -f ~/.bash_logout ] && [ -f ~/.bashrc ] && [ -f ~/.bash_aliases ] && scp ~/.bash_logout ~/.bashrc ~/.bash_aliases ~/.dircolors $1:~
+[ -f ~/.bash_logout ] && [ -f ~/.bashrc ] && [ -f ~/.bash_aliases ] && scp ~/.bash_logout ~/.bashrc ~/.bash_aliases $1:~
 
 # cloud-init
 [ -f ~/.cloud-warnings.skip ] && scp ~/.cloud-warnings.skip $1:~
